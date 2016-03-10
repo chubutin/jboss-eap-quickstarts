@@ -14,7 +14,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.jboss.quickstarts.eap</groupId>
-	<artifactId>jboss-helloworld</artifactId>
+	<artifactId>jboss-helloworld-mock</artifactId>
 	<version>6.2.0-redhat-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>JBoss EAP Quickstart: helloworld</name>
@@ -142,10 +142,9 @@
 						<artifactId>jboss-as-maven-plugin</artifactId>
 						<version>${version.jboss.maven.plugin}</version>
 
-						<!-- Execute some CLI commands in clean phase -->
 						<executions>
 							<execution>
-								<id>commands-first-step</id>
+								<id>commands</id>
 								<phase>clean</phase>
 								<goals>
 									<goal>execute-commands</goal>
@@ -164,19 +163,17 @@
 							<!-- Undeploy, Command CLI and Deploy the application on install phase -->
 							<execution>
 								<id>deploy</id>
-								<phase>install</phase>
+								<phase>verify</phase>
 								<goals>
 									<goal>undeploy</goal>
 									<goal>deploy</goal>
 								</goals>
 								<configuration>
+									<groupId>${project.groupId}</groupId>
+									<artifactId>${project.artifactId}</artifactId>
+									<version>${project.version}</version>
+									<name>jboss-helloworld.war</name>
 									<ignoreMissingDeployment>true</ignoreMissingDeployment>
-									<after-deployment>
-										<commands>
-											<command>undeploy --name=jboss-helloworld-mock.war --keep-content</command>
-											<command>deploy --name=jboss-helloworld-mock.war</command>
-										</commands>
-									</after-deployment>
 								</configuration>
 							</execution>
 							
